@@ -4,20 +4,16 @@ Code By: NamesAreHard
 
 "Unreleased" version of Invisible Inc Pilots
 
-Known Bugs:
-Adding shields to buildings and Int. don't really work. Is this a bug or a feature?
-	- It should at least maintain any current shields right?
-
-Possible Untested Bugs:
-Where do bonus cores go in save data? Do I add ["iBonusPower"] and ["iUsedBonus"] or not? It requires getting +1 core on sharp which is tricky
-
-To Do List:
-Preview for Int. - Not sure how...
+TODO:
+Preview for Int. - Not sure how... I'm smarter now
 CEO Reskin
 Time the weapons for Int. - Probably Won't Do
 Sharp Custom Tip Image
-Sharp Repair Icon
 Change Sharp so that it works in test mech and tooltip (global variable that's updated??) - Too much work really
+-1 move doesn't show properly for Dr.Xu, as it shows base move before changing. Could use MoveBonus Instead
+Acid Rain Bug
+Dialogue
+Probably more
 
 
 Feel free to @me on the Into The Breach Discord server or send me a DM @NamesAreHard#2501
