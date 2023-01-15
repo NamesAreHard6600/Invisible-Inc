@@ -1,9 +1,10 @@
 local this = {}
 
-local path = mod_loader.mods[modApi.currentMod].scriptPath
+local mod = mod_loader.mods[modApi.currentMod]
+local path = mod.scriptPath
+local previewer = mod.libs.weaponPreview
 local pawnMove = require(path .."libs/pawnMoveSkill")
 local moveskill = require(path .."libs/pilotSkill_move")
-local previewer = require(path.."weaponPreview/api")
 local movespeed = require(path .."movespeed/api")
 
 local function IsTipImage()
@@ -26,10 +27,10 @@ end
 function this:init(mod)
 	CreatePilot(pilot)
 	require(mod.scriptPath .."libs/pilotSkill_tooltip").Add(pilot.Skill, PilotSkill("Friendly Spirit", "Gives a temporary shield to all buildings before attacking, and removes them after."))
-	
+
 	-- art, icons, animations
-	
-	
+
+
 	--Skill
 	--ShockSkill = {}
 	--It's all in the hooks
@@ -39,7 +40,7 @@ end
 
 local function saveState(mission, point)
 	--LOG(mission.buildingStates[point:GetString()])
-	if not mission.buildingStates[point:GetString()] then 
+	if not mission.buildingStates[point:GetString()] then
 		if Board:IsShield(point) then
 			mission.buildingStates[point:GetString()] = true --True = is shielded
 		else
@@ -49,7 +50,7 @@ local function saveState(mission, point)
 end
 
 
-function this:load(modApiExt, options)	
+function this:load(modApiExt, options)
 	--[[
 	modApiExt.dialog:addRuledDialog("Pilot_Skill_AZ", {
 		Odds = 5,
@@ -70,13 +71,13 @@ function this:load(modApiExt, options)
 			end
 		end
 	end)
-		
+
 	modApiExt:addSkillBuildHook(function(mission, pawn, weaponId, p1, p2, skillEffect)
 		if pawn:IsAbility(pilot.Skill) and tostring(weaponId) ~= "Move" then
 		mission.buildingStates = {}
 			for i = 1, skillEffect.effect:size() do
 				local damage = skillEffect.effect:index(i);
-				if damage.iShield == 1 then 
+				if damage.iShield == 1 then
 					local point = damage.loc
 					if Board:IsBuilding(point) then
 						mission.buildingStates[point:GetString()] = true
@@ -109,7 +110,7 @@ function this:load(modApiExt, options)
 			end
 			Board:AddEffect(effect) --This is weird implementaion but the better implementaion I was using earlier wasn't working so...
 		end
-		
+
 	end)
 end
 

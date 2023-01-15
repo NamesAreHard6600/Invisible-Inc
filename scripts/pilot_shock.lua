@@ -1,9 +1,10 @@
 local this = {}
 
-local path = mod_loader.mods[modApi.currentMod].scriptPath
+local mod = mod_loader.mods[modApi.currentMod]
+local path = mod.scriptPath
+local previewer = mod.libs.weaponPreview
 local pawnMove = require(path .."libs/pawnMoveSkill")
 local moveskill = require(path .."libs/pilotSkill_move")
-local previewer = require(path.."weaponPreview/api")
 local movespeed = require(path .."movespeed/api")
 
 local function IsTipImage()
@@ -25,22 +26,22 @@ end
 
 function this:init(mod)
 	CreatePilot(pilot)
-	require(mod.scriptPath .."libs/pilotSkill_tooltip").Add(pilot.Skill, PilotSkill("Experimental Circuits", "Adds an electric whip attack to the repair. -1 move."))
-	
+	require(mod.scriptPath .."libs/pilotSkill_tooltip").Add(pilot.Skill, PilotSkill("Experimental Circuits", "Adds a one damage electric whip attack to repair. -1 move."))
+
 	-- art, icons, animations
-	
-	
+
+
 	--Skill
 	ShockSkill = {}
 	--  Replace Repair  --
 	NAH_Hek_InvisibleInc_repairApi:SetRepairSkill{
-		Weapon = "ShockSkill_Link", 
-		Icon = "img/weapons/repair_shock.png", 
+		Weapon = "ShockSkill_Link",
+		Icon = "img/weapons/repair_shock.png",
 		IsActive = function(pawn)
 			return pawn:IsAbility(pilot.Skill)
 		end
 	}
-	
+
 	ShockSkill_Link = Skill:new {
 		Name = "Electric Whip",
 		Description = "Chain damage through adjacent targets.",
@@ -65,12 +66,12 @@ function this:init(mod)
 				ret:push_back(curr)
 			end
 		end
-		
-		
+
+
 		return ret
 	end
-	
-	
+
+
 	function ShockSkill_Link:GetSkillEffect(p1, p2)
 		local ret = SkillEffect()
 		ret:AddDamage(SpaceDamage(p1,-1))
@@ -80,34 +81,34 @@ function this:init(mod)
 		local explored = {[hash(p1)] = true}
 		local todo = {p2}
 		local origin = { [hash(p2)] = p1 }
-		
+
 		if Board:IsPawnSpace(p2) or (self.Buildings and Board:IsBuilding(p2)) then
 			ret:AddAnimation(p1,"Lightning_Hit")
 		end
-		
+
 		while #todo ~= 0 do
 			local current = pop_back(todo)
-			
+
 			if not explored[hash(current)] then
 				explored[hash(current)] = true
-				
+
 				if Board:IsPawnSpace(current) or (self.Buildings and Board:IsBuilding(current)) then
-				
+
 					local direction = GetDirection(current - origin[hash(current)])
 					damage.sAnimation = "Lightning_Attack_"..direction
 					damage.loc = current
 					damage.iDamage = Board:IsBuilding(current) and DAMAGE_ZERO or self.Damage
-					
+
 					if not self.FriendlyDamage and Board:IsPawnTeam(current, TEAM_PLAYER) then
 						damage.iDamage = DAMAGE_ZERO
 					end
-					
+
 					ret:AddDamage(damage)
-					
+
 					if not Board:IsBuilding(current) then
 						ret:AddAnimation(current,"Lightning_Hit")
 					end
-					
+
 					for i = DIR_START, DIR_END do
 						local neighbor = current + DIR_VECTORS[i]
 						if not explored[hash(neighbor)] then
@@ -115,14 +116,14 @@ function this:init(mod)
 							origin[hash(neighbor)] = current
 						end
 					end
-				end		
+				end
 			end
 		end
-		
+
 		return ret
 	end
 
-	
+
 	--  -1 move  --
 	moveskill.AddTargetArea(pilot.Personality, ShockSkill)
 	--moveskill.AddSkillEffect(pilot.Personality, ShockSkill)
@@ -130,10 +131,10 @@ function this:init(mod)
 		if not pawnMove.IsTargetAreaExt() or not pawnMove.IsSkillEffectExt() then
 			return pawnMove.GetTargetArea(p1)
 		end
-	
+
 		local mission = GetCurrentMission()
 		if not mission then return end
-		
+
 		local moveSpeed = Pawn:GetMoveSpeed() - 1
 		--LOG(moveSpeed)
 		return pawnMove.GetTargetArea(point, moveSpeed)
@@ -144,14 +145,14 @@ end
 
 
 --[[
-function this:load(modApiExt, options)	
+function this:load(modApiExt, options)
 	modApiExt.dialog:addRuledDialog("Pilot_Skill_AZ", {
 		Odds = 5,
 		{ main = "Pilot_Skill_AZ" },
 	})
-	
+
 	modApi:addMissionStartHook(function(mission)
-		for id = 0, 2 do 
+		for id = 0, 2 do
 			if Board:GetPawn(id):IsAbility(pilot.Skill) then
 				movespeed:Sub(id, 1)
 				LOG("Subtracting")
