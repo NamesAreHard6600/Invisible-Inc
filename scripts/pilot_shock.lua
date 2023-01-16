@@ -5,7 +5,6 @@ local path = mod.scriptPath
 local previewer = mod.libs.weaponPreview
 local pawnMove = require(path .."libs/pawnMoveSkill")
 local moveskill = require(path .."libs/pilotSkill_move")
-local movespeed = require(path .."movespeed/api")
 
 local function IsTipImage()
 	return Board:GetSize() == Point(6,6)
@@ -123,8 +122,8 @@ function this:init(mod)
 		return ret
 	end
 
-
-	--  -1 move  --
+	--[[
+	--  -1 move  OLD, Doesn't show move change --
 	moveskill.AddTargetArea(pilot.Personality, ShockSkill)
 	--moveskill.AddSkillEffect(pilot.Personality, ShockSkill)
 	function ShockSkill:GetTargetArea(point)
@@ -139,23 +138,19 @@ function this:init(mod)
 		--LOG(moveSpeed)
 		return pawnMove.GetTargetArea(point, moveSpeed)
 	end
+	]]
 	--
 end
 
-
-
---[[
 function this:load(modApiExt, options)
-	modApiExt.dialog:addRuledDialog("Pilot_Skill_AZ", {
-		Odds = 5,
-		{ main = "Pilot_Skill_AZ" },
-	})
-
-	modApi:addMissionStartHook(function(mission)
-		for id = 0, 2 do
-			if Board:GetPawn(id):IsAbility(pilot.Skill) then
-				movespeed:Sub(id, 1)
-				LOG("Subtracting")
+	modApi:addNextTurnHook(function(mission)
+		if Game:GetTeamTurn() == TEAM_PLAYER then
+			for id = 0, 2 do
+				local pawn = Board:GetPawn(id)
+				if pawn and pawn:IsAbility(pilot.Skill) then
+					--Board:Ping(pawn:GetSpace(),GL_Color(255,0,0)) Get's overriden by AddMoveBonus
+					pawn:AddMoveBonus(-1)
+				end
 			end
 		end
 	end)

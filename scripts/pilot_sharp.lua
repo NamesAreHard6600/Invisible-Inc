@@ -5,7 +5,6 @@ local path = mod.scriptPath
 local previewer = mod.libs.weaponPreview
 local pawnMove = require(path .."libs/pawnMoveSkill")
 local moveskill = require(path .."libs/pilotSkill_move")
-local movespeed = require(path .."movespeed/api")
 local saveData = require(path.."libs/saveData")
 
 local function IsTipImage()

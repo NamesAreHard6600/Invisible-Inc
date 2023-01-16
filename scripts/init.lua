@@ -61,8 +61,6 @@ function mod:init(self)
   --Replace Repair
   NAH_Hek_InvisibleInc_repairApi = require(path.. "replaceRepair/api")
 	NAH_Hek_InvisibleInc_repairApi:init(self, NAH_Hek_InvisibleInc_ModApiExt)
-  --movespeed lib
-  local movespeed = require(path .."movespeed/api")
 
 	--require(mod.scriptPath .."LApi/LApi")
 	require(mod.scriptPath.."animations")
@@ -107,9 +105,9 @@ function mod:load(self,options,version)
 
 	--Pilots that require hooks might need a load
 
-	--if getOption(options, "enable_pilot_shock") then
-	--	require(mod.scriptPath .. "pilot_shock"):load(NAH_Hek_InvisibleInc_ModApiExt)
-	--end
+	if getOption(options, "enable_pilot_shock") then
+		require(mod.scriptPath .. "pilot_shock"):load(NAH_Hek_InvisibleInc_ModApiExt)
+	end
 
 	if getOption(options, "enable_pilot_grid") then
 		require(mod.scriptPath .. "pilot_grid"):load(NAH_Hek_InvisibleInc_ModApiExt)

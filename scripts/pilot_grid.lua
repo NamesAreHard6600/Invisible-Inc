@@ -5,7 +5,6 @@ local path = mod.scriptPath
 local previewer = mod.libs.weaponPreview
 local pawnMove = require(path .."libs/pawnMoveSkill")
 local moveskill = require(path .."libs/pilotSkill_move")
-local movespeed = require(path .."movespeed/api")
 
 local function IsTipImage()
 	return Board:GetSize() == Point(6,6)
@@ -73,8 +72,8 @@ function this:load(modApiExt, options)
 	end)
 
 	modApiExt:addSkillBuildHook(function(mission, pawn, weaponId, p1, p2, skillEffect)
-		if pawn:IsAbility(pilot.Skill) and tostring(weaponId) ~= "Move" then
-		mission.buildingStates = {}
+		if pawn and pawn:IsAbility(pilot.Skill) and tostring(weaponId) ~= "Move" then
+			mission.buildingStates = {}
 			for i = 1, skillEffect.effect:size() do
 				local damage = skillEffect.effect:index(i);
 				if damage.iShield == 1 then
