@@ -25,7 +25,7 @@ end
 
 function this:init(mod)
 	CreatePilot(pilot)
-	require(mod.scriptPath .."libs/pilotSkill_tooltip").Add(pilot.Skill, PilotSkill("Friendly Spirit", "Gives a temporary shield to all buildings before attacking, and removes them after."))
+	require(mod.scriptPath .."libs/pilotSkill_tooltip").Add(pilot.Skill, PilotSkill("Wireless Shielding", "Grants all buildings a temporary shield before attacking, and removes them after."))
 
 	-- art, icons, animations
 

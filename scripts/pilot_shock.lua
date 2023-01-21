@@ -13,7 +13,7 @@ end
 local pilot = {
 	Id = "Pilot_Shock",
 	Personality = "Shock",
-	Name = "Dr.Xu",
+	Name = "Dr. Xu",
 	Sex = SEX_MALE, --SEX_FEMALE
 	Skill = "ShockSkill",
 	Voice = "/voice/kwan", --or other voice
@@ -25,7 +25,7 @@ end
 
 function this:init(mod)
 	CreatePilot(pilot)
-	require(mod.scriptPath .."libs/pilotSkill_tooltip").Add(pilot.Skill, PilotSkill("Experimental Circuits", "Adds a one damage electric whip attack to repair. -1 move."))
+	require(mod.scriptPath .."libs/pilotSkill_tooltip").Add(pilot.Skill, PilotSkill("Experimental Circuits", "Adds a 1 damage electric whip attack to repair, chains through buildings. -1 move."))
 
 	--Skill
 	ShockSkill = {}
@@ -44,6 +44,7 @@ function this:init(mod)
 		Description = "Chain damage through adjacent targets.",
 		Damage = 1,
 		Upgrades = 0,
+		Buildings = true,
 	}
 
 end
