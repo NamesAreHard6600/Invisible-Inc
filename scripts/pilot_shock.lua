@@ -41,7 +41,7 @@ function this:init(mod)
 	ShockSkill_Link = Prime_Lightning:new {
 		Name = "Electric Whip",
 		Class = "",
-		Description = "Chain damage through adjacent targets.",
+		Description = "Chain damage through adjacent targets, chaining through buildings.",
 		Damage = 1,
 		Upgrades = 0,
 		Buildings = true,
