@@ -25,7 +25,7 @@ end
 
 function this:init(mod)
 	CreatePilot(pilot)
-	require(mod.scriptPath .."libs/pilotSkill_tooltip").Add(pilot.Skill, PilotSkill("Experimental Circuits", "Adds a 1 damage electric whip attack to repair, chains through buildings. -1 move."))
+	require(mod.scriptPath .."libs/pilotSkill_tooltip").Add(pilot.Skill, PilotSkill("Experimental Circuits", "Replace repair with a 1 damage electric whip attack that chains through buildings. -1 move on turn one."))
 
 	--Skill
 	ShockSkill = {}
@@ -38,7 +38,7 @@ function this:init(mod)
 		end
 	}
 
-	ShockSkill_Link = Prime_Lightning:new {
+	ShockSkill_Link = Prime_Lightning_A:new {
 		Name = "Electric Whip",
 		Class = "",
 		Description = "Chain damage through adjacent targets, chaining through buildings.",
@@ -46,12 +46,11 @@ function this:init(mod)
 		Upgrades = 0,
 		Buildings = true,
 	}
-
 end
 
 function this:load(modApiExt, options)
 	modApi:addNextTurnHook(function(mission)
-		if Game:GetTeamTurn() == TEAM_PLAYER then
+		if Game:GetTeamTurn() == TEAM_PLAYER and Board:GetTurn() == 1 then
 			for id = 0, 2 do
 				local pawn = Board:GetPawn(id)
 				if pawn and pawn:IsAbility(pilot.Skill) then
