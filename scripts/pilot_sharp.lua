@@ -44,8 +44,9 @@ function this:init(mod)
 
 	SharpSkill_Link = Skill:new {
 		Name = "Bionic Strike",
-		Description = "Meele punch that does 1 + (cores/3) damage.",
-		Damage = 1, --Isn't used
+		Description = "Meele punch that does \n1 + (cores/3) damage.",
+		DamageTip = "1 + (cores/3)",
+		TipDamageCustom = "1 + (cores/3)", --Doesn't work on replace repairs ):
 		LaunchSound = "/weapons/titan_fist",
 		PathSize = 1,
 		TipImage = StandardTips.Melee,
@@ -57,17 +58,13 @@ function this:init(mod)
 		local ret = SkillEffect()
 		local direction = GetDirection(p2 - p1)
 		local damage = 1
-		--LOG("1")
 		local reactorTable = saveData.getPawnKey(myid, "reactor")
-		--LOG("2")
 		if reactorTable ~= nil then
 			local reactors = reactorTable["iNormalPower"] + reactorTable["iUsedPower"] + reactorTable["iBonusPower"] + reactorTable["iUsedBonus"] -- Keep Bonus?
 			damage = 1 + math.floor(reactors/3)
 		end
-		--LOG("3")
 
 		local d = SpaceDamage(p2, damage, direction)
-		--LOG("4")
 		if damage > 2 then
 			d.sAnimation = "NAH_bionic_strike_big_"..direction
 		else
@@ -75,7 +72,6 @@ function this:init(mod)
 		end
 
 		ret:AddDamage(d)
-		--LOG("5")
 		return ret
 	end
 end

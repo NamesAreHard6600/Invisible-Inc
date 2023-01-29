@@ -5,17 +5,13 @@ Code By: NamesAreHard
 "Unreleased" version of Invisible Inc Pilots
 
 TODO:
-Preview for Int. - Not sure how... I'm smarter now
-CEO Reskin
-Time the weapons for Int. - Probably Won't Do
-Sharp Custom Tip Image
-Change Sharp so that it works in test mech and tooltip (global variable that's updated??) - Too much work really
--1 move doesn't show properly for Dr.Xu, as it shows base move before changing. Could use MoveBonus Instead
+CEO Reskin - Not sure how to do this
+Sharp Custom Tip Image - Not sure how to represent this
+Change Sharp so that it works in test mech and tooltip - Not sure how to do this with it still working when quitting
 Dialogue
-Probably more
 Shock -move in testmech
-Int two click
 
+Probably more
 
 Feel free to @me on the Into The Breach Discord server or send me a DM @NamesAreHard#2501
 

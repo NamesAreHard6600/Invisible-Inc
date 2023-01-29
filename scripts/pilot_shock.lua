@@ -25,7 +25,7 @@ end
 
 function this:init(mod)
 	CreatePilot(pilot)
-	require(mod.scriptPath .."libs/pilotSkill_tooltip").Add(pilot.Skill, PilotSkill("Experimental Circuits", "Replace repair with a 1 damage electric whip attack that chains through buildings. -1 move on turn one."))
+	require(mod.scriptPath .."libs/pilotSkill_tooltip").Add(pilot.Skill, PilotSkill("Experimental Circuits", "Replace repair with a 1 damage electric whip attack with building chain. -1 move on turn one."))
 
 	--Skill
 	ShockSkill = {}
@@ -59,6 +59,20 @@ function this:load(modApiExt, options)
 				end
 			end
 		end
+	end)
+	modApi:addTestMechEnteredHook(function(mission)
+		modApi:conditionalHook (
+			function()
+				return Board:GetPawn(0)
+			end,
+
+			function()
+				local pawn = Board:GetPawn(0)
+				if pawn:IsAbility(pilot.Skill) then
+					pawn:AddMoveBonus(-1)
+				end
+			end
+		)
 	end)
 end
 --]]
