@@ -64,6 +64,7 @@ function mod:init(self)
 
 	--require(mod.scriptPath .."LApi/LApi")
 	require(mod.scriptPath.."animations")
+  require(mod.scriptPath.."personalities/personalities")
 
 	local options = getModOptions(mod)
 	--LOG(mod.resourcePath)
