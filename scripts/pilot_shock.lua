@@ -13,7 +13,7 @@ end
 local pilot = {
 	Id = "Pilot_Shock",
 	Personality = "Shock",
-	Name = "Dr. Xu",
+	Name = "Dr.Xu",
 	Sex = SEX_MALE, --SEX_FEMALE
 	Skill = "ShockSkill",
 	Voice = "/voice/kwan", --or other voice
