@@ -43,16 +43,6 @@ function mod:init(self)
 	local scriptPath = mod.scriptPath
 	local options = mod_loader.currentModContent[mod.id].options
 
-	--libs
-	--local sprites = require(path .."libs/sprites")
-	--local palettes = require(self.scriptPath .."libs/customPalettes")
-  --[[
-  local extDir = path.."modApiExt/"
-	NAH_Hek_InvisibleInc_ModApiExt = require(extDir.."modApiExt")
-	NAH_Hek_InvisibleInc_ModApiExt:init(extDir)
-	NAH_Hek_InvisibleInc_repairApi = require(path.. "replaceRepair/api")
-	NAH_Hek_InvisibleInc_repairApi:init(self, NAH_Hek_InvisibleInc_ModApiExt)
-  ]]
   --modApiExt
   mod.libs = {}
 	mod.libs.modApiExt = modapiext
@@ -103,30 +93,6 @@ function mod:load(self,options,version)
 	NAH_Hek_InvisibleInc_repairApi:load(self, options, version)
 
 	require(mod.scriptPath .."replaceRepair/api"):load()
-
-	--Pilots that require hooks might need a load
-
-	if getOption(options, "enable_pilot_shock") then
-		require(mod.scriptPath .. "pilot_shock"):load(NAH_Hek_InvisibleInc_ModApiExt)
-	end
-
-	if getOption(options, "enable_pilot_grid") then
-		require(mod.scriptPath .. "pilot_grid"):load(NAH_Hek_InvisibleInc_ModApiExt)
-	end
-
-	--if getOption(options, "enable_pilot_sharp") then
-	--	require(mod.scriptPath .. "pilot_sharp"):load(NAH_Hek_InvisibleInc_ModApiExt)
-	--end
-
-	--[[ This  is supposed to be a fancy thing I can't be bothered to get working, I'll just do it the slow way.
-	local options = getModOptions(mod)
-	for id, name in ipairs(pilotnames) do
-		if getOption(options, "enable_"..string.lower(id)) then
-			mod[id]:load(NAH_Hek_InvisibleInc_ModApiExt)
-			require(self.scriptPath .. string.lower(id)):load()
-		end
-	end
-	--]]
 end
 
 function mod:metadata()

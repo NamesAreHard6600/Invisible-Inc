@@ -13,7 +13,7 @@ end
 local pilot = {
 	Id = "Pilot_Shock",
 	Personality = "Shock",
-	Name = "Dr.Xu",
+	Name = "Tony Xu",
 	Sex = SEX_MALE, --SEX_FEMALE
 	Skill = "ShockSkill",
 	Voice = "/voice/kwan", --or other voice
@@ -48,32 +48,38 @@ function this:init(mod)
 	}
 end
 
-function this:load(modApiExt, options)
-	modApi:addNextTurnHook(function(mission)
-		if Game:GetTeamTurn() == TEAM_PLAYER and Board:GetTurn() == 1 then
-			for id = 0, 2 do
-				local pawn = Board:GetPawn(id)
-				if pawn and pawn:IsAbility(pilot.Skill) then
-					--Board:Ping(pawn:GetSpace(),GL_Color(255,0,0)) Get's overriden by AddMoveBonus
-					pawn:AddMoveBonus(-1)
-				end
+local function nextTurnHook(mission)
+	if Game:GetTeamTurn() == TEAM_PLAYER and Board:GetTurn() == 1 then
+		for id = 0, 2 do
+			local pawn = Board:GetPawn(id)
+			if pawn and pawn:IsAbility(pilot.Skill) then
+				--Board:Ping(pawn:GetSpace(),GL_Color(255,0,0)) Get's overriden by AddMoveBonus
+				pawn:AddMoveBonus(-1)
 			end
 		end
-	end)
-	modApi:addTestMechEnteredHook(function(mission)
-		modApi:conditionalHook (
-			function()
-				return Board:GetPawn(0)
-			end,
-
-			function()
-				local pawn = Board:GetPawn(0)
-				if pawn:IsAbility(pilot.Skill) then
-					pawn:AddMoveBonus(-1)
-				end
-			end
-		)
-	end)
+	end
 end
---]]
+
+local function testMechEntered(mission)
+	modApi:conditionalHook (
+		function()
+			return Board:GetPawn(0)
+		end,
+
+		function()
+			local pawn = Board:GetPawn(0)
+			if pawn:IsAbility(pilot.Skill) then
+				pawn:AddMoveBonus(-1)
+			end
+		end
+	)
+end
+
+local function EVENT_onModsLoaded()
+	modApi:addNextTurnHook(nextTurnHook)
+	modApi:addTestMechEnteredHook(testMechEntered)
+end
+
+modApi.events.onModsLoaded:subscribe(EVENT_onModsLoaded)
+
 return this

@@ -27,7 +27,7 @@ end
 
 function this:init(mod)
 	CreatePilot(pilot)
-	require(mod.scriptPath .."libs/pilotSkill_tooltip").Add(pilot.Skill, PilotSkill("Bionic Strike", "Replaces Repair with a melee punch that does 1 + (cores/3) damage. Doesn't work properly in test mech."))
+	require(mod.scriptPath .."libs/pilotSkill_tooltip").Add(pilot.Skill, PilotSkill("Bionic Strike", "Replaces Repair with a melee punch that does 1 + (cores/3) damage."))
 
 	-- art, icons, animations
 
@@ -76,10 +76,8 @@ function this:init(mod)
 	end
 end
 
-
 --[[
-function this:load(modApiExt, options)
-
+local function EVENT_onModsLoaded()
 	modApiExt.dialog:addRuledDialog("Pilot_Skill_AZ", {
 		Odds = 5,
 		{ main = "Pilot_Skill_AZ" },
@@ -91,7 +89,10 @@ function this:load(modApiExt, options)
 			LOG(reactors["iNormalPower"])
 		end
 	end)
-
 end
-]]--
+
+modApi.events.onModsLoaded:subscribe(EVENT_onModsLoaded)
+
+--]]
+
 return this

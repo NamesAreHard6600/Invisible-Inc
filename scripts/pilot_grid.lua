@@ -112,14 +112,10 @@ local function NAH_GridUnshield(mission)
 	Board:AddEffect(effect) --This is weird implementaion but the better implementaion I was using earlier wasn't working so...
 end
 
-function this:load(modApiExt, options)
-	--[[
-	modApiExt.dialog:addRuledDialog("Pilot_Skill_AZ", {
-		Odds = 5,
-		{ main = "Pilot_Skill_AZ" },
-	})
-	]]--
+local function EVENT_onModsLoaded()
 	--for k, v in pairs(GetCurrentMission().buildingStates) do LOG(k); LOG(v) end
+	modApiExt = NAH_Hek_InvisibleInc_ModApiExt
+
 	modApiExt:addSkillBuildHook(function(mission, pawn, weaponId, p1, p2, skillEffect)
 		if pawn and pawn:IsAbility(pilot.Skill) and tostring(weaponId) ~= "Move" then
 			NAH_GridShield(mission,skillEffect)
@@ -133,16 +129,18 @@ function this:load(modApiExt, options)
 	end)
 
 	modApiExt:addSkillEndHook(function(mission, pawn, weaponId, p1, p2)--, skillEffect)
-		if pawn:IsAbility(pilot.Skill) and tostring(weaponId) ~= "Move" then
+		if pawn and pawn:IsAbility(pilot.Skill) and tostring(weaponId) ~= "Move" then
 			NAH_GridUnshield(mission)
 		end
 	end)
 
 	modApiExt:addFinalEffectEndHook(function(mission, pawn, weaponId, p1, p2, p3)
-		if pawn:IsAbility(pilot.Skill) and tostring(weaponId) ~= "Move" then
+		if pawn and pawn:IsAbility(pilot.Skill) and tostring(weaponId) ~= "Move" then
 			NAH_GridUnshield(mission)
 		end
 	end)
 end
+
+modApi.events.onModsLoaded:subscribe(EVENT_onModsLoaded)
 
 return this
