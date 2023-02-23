@@ -63,7 +63,7 @@ end
 local function testMechEntered(mission)
 	modApi:conditionalHook (
 		function()
-			return Board:GetPawn(0)
+			return Board and Board:GetPawn(0)
 		end,
 
 		function()

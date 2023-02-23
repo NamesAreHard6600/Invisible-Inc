@@ -27,7 +27,7 @@ end
 
 function this:init(mod)
 	CreatePilot(pilot)
-	require(mod.scriptPath .."libs/pilotSkill_tooltip").Add(pilot.Skill, PilotSkill("Bionic Strike", "Replaces Repair with a melee punch that does 1 + (cores/3) damage."))
+	require(mod.scriptPath .."libs/pilotSkill_tooltip").Add(pilot.Skill, PilotSkill("Bionic Strike", "Replace Repair with a melee punch that does 1 + (cores/3) damage."))
 
 	-- art, icons, animations
 
@@ -52,16 +52,18 @@ function this:init(mod)
 		TipImage = StandardTips.Melee,
 	}
 
+	NAH_Sharp_Damage = nil --This is the best I can do, which is just storing the last time we were in a mission and used the skill
 
 	function SharpSkill_Link:GetSkillEffect(p1, p2)
 		local myid = Pawn:GetId()
 		local ret = SkillEffect()
 		local direction = GetDirection(p2 - p1)
-		local damage = 1
+		local damage = NAH_Sharp_Damage or 1
 		local reactorTable = saveData.getPawnKey(myid, "reactor")
 		if reactorTable ~= nil then
 			local reactors = reactorTable["iNormalPower"] + reactorTable["iUsedPower"] + reactorTable["iBonusPower"] + reactorTable["iUsedBonus"] -- Keep Bonus?
 			damage = 1 + math.floor(reactors/3)
+			NAH_Sharp_Damage = damage
 		end
 
 		local d = SpaceDamage(p2, damage, direction)

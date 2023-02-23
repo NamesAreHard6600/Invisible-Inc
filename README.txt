@@ -1,13 +1,17 @@
-Invisible Inc Pilots BETA.0
-Art By: Hekateras
+Invisible Inc Pilots 1.0
+Art and Concept By: Hekateras
 Code By: NamesAreHard
 
-"Unreleased" version of Invisible Inc Pilots
+In the ultimate crossover, Invisible Inc Agents join the pilot pool.
+Note: Everything should work in missions, but Sharp specifically doesn't always work in test mech and tooltips because if its reliance on save data
+
+Internationale: Grants all buildings a temporary shield before attacking, and removes them after.
+Tony Xu: "Replace repair with a 1 damage electric whip attack with building chain. -1 move on turn one."
+Sharp: Replace Repair with a melee punch that does 1 + (cores/3) damage.
 
 TODO:
 CEO Reskin - Not sure how to do this
-Sharp Custom Tip Image - Not sure how to represent this
-Change Sharp so that it works in test mech and tooltip - Not sure how to do this with it still working when quitting
+Better Sharp Damage Storage: I don't think this is doable
 
 Feel free to @me on the Into The Breach Discord server or send me a DM @NamesAreHard#2501
 
