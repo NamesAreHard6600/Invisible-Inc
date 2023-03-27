@@ -2,7 +2,7 @@
 --Might have extra stuff for Replace Repair
 
 --I really hate this way of "init"ing but it's too late now
-mod = {
+local mod = {
   id = "NamesAreHard/Hekateras - Invisible Inc Pilots",
   name = "Invisible Inc Pilots",
 	icon = "modIcon.png",
