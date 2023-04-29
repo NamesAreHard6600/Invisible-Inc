@@ -117,25 +117,26 @@ local function EVENT_onModsLoaded()
 	modApiExt = NAH_Hek_InvisibleInc_ModApiExt
 
 	modApiExt:addSkillBuildHook(function(mission, pawn, weaponId, p1, p2, skillEffect)
-		if pawn and pawn:IsAbility(pilot.Skill) and tostring(weaponId) ~= "Move" then
+		if pawn and pawn:IsAbility(pilot.Skill) and tostring(weaponId) ~= "Move" and pawn:GetSpace() == p1 then
+			--VERY STRANGE BUG WITH SKILL BUILD PICKING UP THE WRONG PAWN: pawn:GetSpace() == p1 FIXES IT
 			NAH_GridShield(mission,skillEffect)
 		end
 	end)
 
 	modApiExt:addFinalEffectBuildHook(function(mission, pawn, weaponId, p1, p2, p3, skillEffect)
-		if pawn and pawn:IsAbility(pilot.Skill) and tostring(weaponId) ~= "Move" then
+		if pawn and pawn:IsAbility(pilot.Skill) and tostring(weaponId) ~= "Move" and pawn:GetSpace() == p1 then
 			NAH_GridShield(mission,skillEffect)
 		end
 	end)
 
 	modApiExt:addSkillEndHook(function(mission, pawn, weaponId, p1, p2)--, skillEffect)
-		if pawn and pawn:IsAbility(pilot.Skill) and tostring(weaponId) ~= "Move" then
+		if pawn and pawn:IsAbility(pilot.Skill) and tostring(weaponId) ~= "Move" and pawn:GetSpace() == p1 then
 			NAH_GridUnshield(mission)
 		end
 	end)
 
 	modApiExt:addFinalEffectEndHook(function(mission, pawn, weaponId, p1, p2, p3)
-		if pawn and pawn:IsAbility(pilot.Skill) and tostring(weaponId) ~= "Move" then
+		if pawn and pawn:IsAbility(pilot.Skill) and tostring(weaponId) ~= "Move" and pawn:GetSpace() == p1 then
 			NAH_GridUnshield(mission)
 		end
 	end)
