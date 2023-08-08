@@ -117,7 +117,7 @@ local function EVENT_onModsLoaded()
 	modApiExt = NAH_Hek_InvisibleInc_ModApiExt
 
 	modApiExt:addSkillBuildHook(function(mission, pawn, weaponId, p1, p2, skillEffect)
-		if pawn and pawn:IsAbility(pilot.Skill) and tostring(weaponId) ~= "Move" and pawn:GetSpace() == p1 then
+		if pawn and pawn:IsAbility(pilot.Skill) and tostring(weaponId) ~= "Move" and pawn:GetSpace() == p1 and not _G[weaponId].TwoClick then
 			--VERY STRANGE BUG WITH SKILL BUILD PICKING UP THE WRONG PAWN: pawn:GetSpace() == p1 FIXES IT
 			NAH_GridShield(mission,skillEffect)
 		end
